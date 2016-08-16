@@ -7,15 +7,29 @@ module.exports = function (opts) {
     function rebase(file, encoding, callback) {
         var self = this;
 
-        encode.stylesheet(file, opts, function (err, src) {
-            if (err) {
-                console.error(err);
-            }
-            file.contents = new Buffer(src);
+        if(opts.isHtml){
+            encode.html(file, opts, function (err, src) {
+                if (err) {
+                    console.error(err);
+                }
+                file.contents = new Buffer(src);
 
-            self.push(file);
-            callback();
-        });
+                self.push(file);
+                callback();
+            });
+        }
+        else{
+            encode.stylesheet(file, opts, function (err, src) {
+                if (err) {
+                    console.error(err);
+                }
+                file.contents = new Buffer(src);
+
+                self.push(file);
+                callback();
+            });
+        }
+        
 
     }
 
